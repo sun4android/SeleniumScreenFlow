@@ -59,11 +59,11 @@ public class ScreeFlowTest {
         equals.click();
 
         flow.takeScreenshot(wait.until(visibilityOfElementLocated(By.id("pod_0100"))), "Looking at 1 section of answers")
-            .takeScreenshot(wait.until(visibilityOfElementLocated(By.id("pod_0100"))), "Looking at 2 section of answers")
-            .takeScreenshot(wait.until(visibilityOfElementLocated(By.id("pod_0100"))), "Looking at 3 section of answers")
-            .takeScreenshot(wait.until(visibilityOfElementLocated(By.id("pod_0100"))), "Looking at 4 section of answers")
-            .takeScreenshot(wait.until(visibilityOfElementLocated(By.id("pod_0100"))), "Looking at 5 section of answers")
-            .takeScreenshot(wait.until(visibilityOfElementLocated(By.id("pod_0100"))), "Looking at 6 section of answers");
+            .takeScreenshot(wait.until(visibilityOfElementLocated(By.id("pod_0200"))), "Looking at 2 section of answers")
+            .takeScreenshot(wait.until(visibilityOfElementLocated(By.id("pod_0300"))), "Looking at 3 section of answers")
+            .takeScreenshot(wait.until(visibilityOfElementLocated(By.id("pod_0400"))), "Looking at 4 section of answers")
+            .takeScreenshot(wait.until(visibilityOfElementLocated(By.id("pod_0500"))), "Looking at 5 section of answers")
+            .takeScreenshot(wait.until(visibilityOfElementLocated(By.id("pod_0600"))), "Looking at 6 section of answers");
 
         try {
             flow.toFile(new File(OUTPUT_PATH), new Grid(), 1920, 1080);
