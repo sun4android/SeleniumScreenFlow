@@ -1,13 +1,11 @@
 package com.seleniumscreenflow;
 
-import org.imgscalr.Scalr;
-
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.Collection;
 import java.util.Iterator;
 
-public class Grid implements Template {
+public class Grid extends AbstractTemplate {
     private static final int HEADER_HEIGHT = 20;
 
     private static final int ID_WIDTH = 20;
@@ -38,18 +36,6 @@ public class Grid implements Template {
         return image;
     }
 
-    private BufferedImage create(int width, int height, Color background) {
-        BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-        Graphics2D g = image.createGraphics();
-
-        g.setColor(background);
-        g.fillRect(0, 0, image.getWidth(), image.getHeight());
-        g.setColor(Color.BLACK);
-
-        g.dispose();
-        return image;
-    }
-
     private void drawTile(Graphics2D g, Screenshot s, int tileWidth, int tileHeight, int row, int column, int id) {
         g.setColor(Color.BLACK);
         g.drawRect(column * tileWidth, row * tileHeight, tileWidth, tileHeight);
@@ -77,40 +63,6 @@ public class Grid implements Template {
         g.setColor(Color.WHITE);
         g.drawString(stringId, column * tileWidth + ID_OFFSET_X + fontOffset, row * tileHeight + ID_OFFSET_Y);
         g.setColor(Color.BLACK);
-    }
-
-    private void crop(Screenshot s, int width, int height) {
-        BufferedImage image = s.getImage();
-        if ((image.getWidth() > width) || (image.getHeight() > height)) {
-            int x = 0;
-            int w = image.getWidth();
-            int y = 0;
-            int h = image.getHeight();
-
-            if (image.getWidth() > width) {
-                int diffWidth = image.getWidth() - width;
-                int leftWidth = s.getElementX();
-                int rightWidth = image.getWidth() - (s.getElementX() + s.getElementWidth());
-                float leftWidthFactor = (float) (leftWidth) / (float) (leftWidth + rightWidth);
-                float rightWidthFactor =  (float) (rightWidth) / (float) (leftWidth + rightWidth);
-
-                x = Math.round(diffWidth * leftWidthFactor);
-                w = w - Math.round(diffWidth * rightWidthFactor);
-            }
-            if (image.getHeight() > height) {
-                int diffHeight = image.getHeight() - height;
-                int topHeight = s.getElementY();
-                int bottomHeight = image.getHeight() - (s.getElementY() + s.getElementHeight());
-                float topHeightFactor = (float) (topHeight) / (float) (topHeight + bottomHeight);
-                float bottomHeightFactor = (float) (bottomHeight) / (float) (topHeight + bottomHeight);
-
-                y = Math.round(diffHeight * topHeightFactor);
-                h = h - Math.round(diffHeight * bottomHeightFactor);
-            }
-
-            s.setImage(Scalr.crop(image, x, y, w - x, h - y, null));
-            image.flush();
-        }
     }
 
     private int centerX(Screenshot s, int width) {

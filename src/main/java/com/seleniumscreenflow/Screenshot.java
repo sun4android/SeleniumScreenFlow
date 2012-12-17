@@ -24,6 +24,10 @@ public final class Screenshot {
         this(image, title, 0, 0, image.getWidth(), image.getHeight());
     }
 
+    public Screenshot(BufferedImage image, int elementX, int elementY, int elementWidth, int elementHeight) {
+        this(image, null, elementX, elementY, elementWidth, elementHeight);
+    }
+
     public Screenshot(BufferedImage image, String title, int elementX, int elementY, int elementWidth, int elementHeight) {
         validate(image, elementX, elementY, elementWidth, elementHeight);
         this.image = image;

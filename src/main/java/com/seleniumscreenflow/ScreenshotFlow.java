@@ -21,26 +21,13 @@ public class ScreenshotFlow {
     private static final String[] CONTAINER_TAGS = new String[]{"map", "div", "table", "form", "fieldset", "body", "ul",
             "ol", "optgroup", "select"};
     private static final String XPATH_PARENT = "..";
+    private static final float STROKE_WIDTH = 2.0f;
     private final WebDriver driver;
     private final List<Screenshot> screenshots = new LinkedList<Screenshot>();
 
     public ScreenshotFlow(WebDriver driver) {
         this.driver = driver;
     }
-
-//    public <T, F> ScreenshotFlow takeScreenshot(Wait<T> wait, Function<? super T, F> condition) {
-//        takeScreenshot(wait, condition, null);
-//        return this;
-//    }
-//
-//    public <T, F> ScreenshotFlow takeScreenshot(Wait<T> wait, Function<? super T, F> condition, String message) {
-//        final F result = wait.until(condition);
-//        if (result instanceof WebElement) {
-//            WebElement element = (WebElement) result;
-//            takeScreenshot(getContainer(element), element, message);
-//        }
-//        return this;
-//    }
 
     public ScreenshotFlow takeScreenshot(By by) {
         return takeScreenshot(by, null);
@@ -64,12 +51,12 @@ public class ScreenshotFlow {
     }
 
     public ScreenshotFlow takeScreenshot(WebElement container, WebElement element) {
-        return takeScreenshot(getContainer(element), element, null);
+        return takeScreenshot(container, element, null);
     }
 
     public ScreenshotFlow takeScreenshot(WebElement container, WebElement element, String message) {
         validate(element);
-        if(calculateArea(container) == 0) {
+        if(calculateArea(container) <= 0) {
             Screenshot screenshot = cropToElement(takeScreenshot(), element);
             screenshot.setTitle(message);
             screenshots.add(screenshot);
@@ -135,7 +122,7 @@ public class ScreenshotFlow {
         final int relativeX = (containerX < elementX) ? elementX - containerX : 0;
         final int relativeY = (containerY < elementY) ? elementY - containerY : 0;
 
-        return new Screenshot(crop(image, x, y, w, h), null, relativeX,  relativeY,  elementW, elementH);
+        return new Screenshot(crop(image, x, y, w, h), relativeX,  relativeY,  elementW, elementH);
     }
 
     private Screenshot cropToElement(BufferedImage image, WebElement element) {
@@ -156,7 +143,7 @@ public class ScreenshotFlow {
 
     private BufferedImage outline(BufferedImage image, int x, int y, int width, int height) {
         final Graphics2D g = image.createGraphics();
-        g.setStroke(new BasicStroke(2.0f));
+        g.setStroke(new BasicStroke(STROKE_WIDTH));
         g.setColor(Color.RED);
         g.drawRect(x, y, width, height);
         g.dispose();
